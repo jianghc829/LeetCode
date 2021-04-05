@@ -21,24 +21,25 @@ public class Solution146 {
 class LRUCache {
     private Map<Integer, Cell> map = new HashMap<>();
     private PriorityQueue<Cell> pq = new PriorityQueue<>();
-    private int count = 0;
+    private int cnt = 0;
     private final int CAP;
-
+    
     public LRUCache(int capacity) {
         this.CAP = capacity;
     }
-
+    
     public int get(int key) {
-        if (!map.containsKey(key))
-            return -1;
+        if (!map.containsKey(key)) return -1;
         Cell cell = map.get(key);
-        cell.cnt = ++count;
+        cell.cnt = ++cnt;
+        pq.remove(cell);
+        pq.offer(cell);
         return cell.val;
     }
-
+    
     public void put(int key, int value) {
         if (!map.containsKey(key)) {
-            Cell cell = new Cell(key, value, ++count);
+            Cell cell = new Cell(key, value, ++cnt);
             map.put(key, cell);
             pq.offer(cell);
             if (pq.size() > CAP) {
@@ -48,25 +49,26 @@ class LRUCache {
         } else {
             Cell cell = map.get(key);
             cell.val = value;
-            cell.cnt = ++count;
+            cell.cnt = ++cnt;
+            pq.remove(cell);
+            pq.offer(cell);
         }
     }
-
+    
     private static class Cell implements Comparable<Cell> {
         public int key;
         public int val;
         public int cnt;
-
+        
         public Cell(int key, int val, int cnt) {
             this.key = key;
             this.val = val;
             this.cnt = cnt;
         }
-
+        
         @Override
         public int compareTo(Cell another) {
-            if (cnt == another.cnt)
-                return 0;
+            if (cnt == another.cnt) return 0;
             return cnt < another.cnt ? -1 : 1;
         }
     }
