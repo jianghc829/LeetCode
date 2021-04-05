@@ -69,18 +69,5 @@ class LRUCache {
                 return 0;
             return cnt < another.cnt ? -1 : 1;
         }
-
-        // @Override
-        // public boolean equals(Object obj) {
-        // if (this == obj) return true;
-        // if (!(obj instanceof Cell)) return false;
-        // Cell another = (Cell) obj;
-        // return this.val == another.val;
-        // }
-
-        // @Override
-        // public int hashCode() {
-        // return val;
-        // }
     }
 }
